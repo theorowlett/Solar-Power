@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container" id='app'>
+    <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Solar Calculator</a>
@@ -22,7 +22,7 @@
                             <a class="nav-link" href="#" id='about'>About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href='#' id='profile' v-on:click='profile({{user.id}})'>Profile</a>
+                            <a class="nav-link" href="{% url 'profile' pk=user.pk %}" id='profile'>Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"id='logout'>Logout</a>
@@ -38,7 +38,7 @@
 
 
     <!-- Edit Profile dialog -->
-    <div class="modal fade" id='profile-dialog'>
+    {% comment %} <div class="modal fade" id='profile-dialog'>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">Update Profile for {{user}} </div>
@@ -65,10 +65,12 @@
                     <a href='#' class='btn btn-primary' id='close-profile'>Cancel</a>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     {% comment %} Chart.JS {% endcomment %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    {% comment %} Chart.JS Trendline {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline"></script>
     {% comment %} JQuery {% endcomment %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {% comment %} Bootstrap {% endcomment %}

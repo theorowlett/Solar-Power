@@ -8,7 +8,8 @@ from numpy import polyfit, array
 def main():
     statename = get_state()
     data = get_eia_data(statename)
-    pprint(data['slope'])
+    pprint(data, indent=2)
+    # pprint(data['year'][-1], indent=2)
     exit()
 
 def get_state():
@@ -36,13 +37,14 @@ def get_eia_data(statename):
     price = array(price)
     m, b = polyfit(year,price,1)
     data = {
-        'year' : [],
-        # 'price' : price,
-        'slope' : m,
-        'intercept' : b,
+        'year' : year.tolist(),
+        'price' : price.tolist(),
+        'best_fit': [],
+        # 'slope' : m,
+        # 'intercept' : b,
     }
-    for i in range(len(previous_costs)):
-        data['year'].append((int(previous_costs[i][0]),previous_costs[i][1]))
+    for i in range(data['year'][-1],data['year'][0],1):
+        data['best_fit'].append(m*(data['year'][-1]+i))
     return data
 
 if __name__=='__main__':
