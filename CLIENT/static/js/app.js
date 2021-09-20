@@ -10,34 +10,45 @@ var app = new Vue({
         years: [],
         prices: [],
         location: '',
+        best_fit: [],
     },
     mounted: function() {
         this.years = JSON.parse(document.getElementById('year').textContent)
         this.prices = JSON.parse(document.getElementById('price').textContent)
         this.location = JSON.parse(document.getElementById('location').textContent)
-        console.log(this.location)
+        this.best_fit = JSON.parse(document.getElementById('best_fit').textContent)
+        console.log(this.years[0])
         var ctx = document.getElementById('energy_cost_chart').getContext('2d');
         var energy_cost_chart = new Chart(ctx, {
             data: {
-                datasets: [{
-                    type: 'line',
-                    label: 'Historical Energy Cost at ZIP Code: ' + this.location,
-                    data: this.prices.reverse(),       //Y-axis
-                    trendlineLinear: {
-                        style: "rgba(255,105,180, .8)",
-                        lineStyle: "dotted|solid",
-                        width: 2
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Historical Energy Cost at ZIP Code: ' + this.location,
+                        data: this.prices,       //Y-axis
+                        options: {
+                            trendlineLinear: {
+                            style: "rgba(255,105,180, .8)",
+                            lineStyle: "dotted|solid",
+                            width: 2
+                            }
+                        }
                     },
-                }],
-                labels: this.years.reverse(),     //X-axis
-            },
-            options: {
-                scales: {
-                    x: {
-                        suggestedMax: this.years[0] + 25
+                    {
+                        type: 'line',
+                        label: 'Projected Energy Cost at ZIP Code: ' +this.location,
+                        data: this.best_fit,
                     }
-                }
+                ],
+                labels: this.years,     //X-axis
             },
+            // options: {
+            //     scales: {
+            //         x: {
+            //             min: this.years[0] + 25
+            //         }
+            //     }
+            // },
         })
     },
 });
@@ -71,4 +82,3 @@ var solar = new Vue({
         }
     }
 });
-

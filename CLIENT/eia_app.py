@@ -27,7 +27,6 @@ def get_eia_data(statename):
     r = requests.get(url,params=payload)
     j = json.loads(r.text)
     previous_costs = j['series'][0]['data']
-    # data = {}
     year = []
     price = []
     for i in range(len(previous_costs)):
@@ -43,8 +42,15 @@ def get_eia_data(statename):
         # 'slope' : m,
         # 'intercept' : b,
     }
-    for i in range(data['year'][-1],data['year'][0],1):
-        data['best_fit'].append(m*(data['year'][-1]+i))
+    data['year'].reverse()
+    data['price'].reverse()
+
+    for i in range(len(data['year'])+25):
+        data['best_fit'].append(m*(data['year'][0]+i)+b)
+        if not data['year'][0]+i in data['year']:
+            data['year'].append(data['year'][0]+i)
+            data['price'].append(0.00)
+    
     return data
 
 if __name__=='__main__':

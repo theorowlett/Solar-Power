@@ -4,57 +4,66 @@
 {{ price|json_script:"price" }}
 {{ user.zip|json_script:"location" }}
 {{ annual_ghi|json_script:"ghi" }}
+{{ best_fit|json_script:"best_fit" }}
 <div class="container">
-    <div class="row">
-
-        <div id="app">
-            <div class="col">
-                <canvas id="energy_cost_chart"></canvas>
-            </div>
-            <div class="accordian" id='accordianData'>
-                <div class="accordian-item">
-                    <h2 class='accordian-header' id='headingHistorical'>
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistorical" aria-expanded="true" aria-controls="collapseHistorical">
-                            Historical Data for {{user.zip}}
-                        </button>
-                    </h2>
-                    <div class="col">
-                        <div id="collapseHistorical" class="accordion-collapse collapse collapse" aria-labelledby="headingHistorical" data-bs-parent="#accordionData">
-                            <div class="accordion-body">
-                                <table class='table table-sm table-striped table-hover'>
-                                    <thread>
-                                        <tr>
-                                            <th scope='col'>Year</th>
-                                            <th scope='col'>Price</th>
-                                        </tr>
-                                    </thread>
-                                    {% for year,price in historical_data %}
-                                    <tr>
-                                        <td scope='row'> {{ year }} </td>
-                                        <td scope='row'> {{ price }} </td>
-                                    </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                        </div>
+    <div id="app">
+        <canvas id="energy_cost_chart"></canvas>
+        <div class="accordian" id='accordianData'>
+            <div class="accordian-item">
+                <h2 class='accordian-header' id='headingHistorical'>
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistorical" aria-expanded="true" aria-controls="collapseHistorical">
+                        Historical Data for {{user.zip}}
+                    </button>
+                </h2>
+                <div id="collapseHistorical" class="accordion-collapse collapse collapse" aria-labelledby="headingHistorical" data-bs-parent="#accordionData">
+                    <div class="accordion-body">
+                        <table class='table table-sm table-striped table-hover'>
+                            <thread>
+                                <tr>
+                                    <th scope='col'>Year</th>
+                                    <th scope='col'>Price</th>
+                                </tr>
+                            </thread>
+                            {% for year,price in historical_data %}
+                            <tr>
+                                <td scope='row'> {{ year }} </td>
+                                <td scope='row'> {{ price }} </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div id='solar'>
-                <label for="panel_width" class="col-sm-2 col-form-label">Panel Width</label>
-                <input class="form-control col-4" type="text" placeholder= [[panel_width]] aria-label="Panel Width" v-model.number='panel_width' id='panel_width'>
-
-                <label for="panel_height" class="col-sm-2 col-form-label">Panel Height</label>
-                <input class="form-control" type="text" placeholder="Panel Height" aria-label="Panel Height" v-model.number='panel_height' id='panel_height'>
-
-                <label for="panels" class="col-sm-2 col-form-label">Panels</label>
-                <input class="form-control" type="text" placeholder="Panels" aria-label="Panels" v-model.number='panels' id='panels'>
-                <button class='btn btn-primary' v-on:click='calculate'>Calculate</button> 
-        </div>
-
     </div>
-</div>
+        
+    <div id='solar'>
+        <div class="row">
+            <div class="col-2 col-sm-12 form-group">
+                <label for="panel_width" class="form-label">Panel Width</label>
+                <input class="form-control" type="text" placeholder= [[panel_width]] aria-label="Panel Width" v-model.number='panel_width' id='panel_width'>
+            </div>
+
+            <div class="col-2 col-sm-12 form-group">
+                <label for="panel_height" class="form-label">Panel Height</label>
+                <input class="form-control" type="text" placeholder="Panel Height" aria-label="Panel Height" v-model.number='panel_height' id='panel_height'>
+            </div>
+
+            <div class="col-2 col-sm-12 form-group">
+                <label for="panels" class="form-label">Panels</label>
+                <input type="range" class='form-range' min='1' max='20' id='panels' v-model.number='panels'>
+                <span class='text-primary'> [[panels]]</span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="estimated_use" class='form-label'>Estimated Annual Use (kWh/YR)</label>
+            <input type="range" class='form-range' min='1' max='20000' id='estimated_use'>
+        </div>
+            
+            <button class='btn btn-primary' v-on:click='calculate'>Calculate</button> 
+    </div>
+
+</div> <!--End container-->
 
 {% endblock %}
